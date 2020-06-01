@@ -4,8 +4,10 @@ const crypto = require("crypto");
 module.exports ={
     async create(req, res){
         const { product, description, photo, price, empresa_email } = req.body;
-                
+        
+        console.log("PRODUTO QUE CHEGOU: ",product);
 
+        console.log('EMAIL: ',empresa_email)
         const id = crypto.randomBytes(4).toString('HEX');
         await connection('products').insert({
             id,
@@ -15,13 +17,12 @@ module.exports ={
             photo,
             price
         }).catch(err=>{console.log('DEU RUIN -> ', err)})
-        console.log('CRIADO')
+
         return res.json({product, id, empresa_email})
     },
 
     async index(req, res){
         const { email } = req.params;
-        console.log("CHEGOU NO BACKEND")
         const products = await connection('products').where('email', email)
         .join('empresas', 'products.empresa_email', '=', 'empresas.email')
         .select([
@@ -34,12 +35,12 @@ module.exports ={
             'products.photo',
             'products.price'
         ])
-        console.log("VAMOS RESPONDER COM ISSO: ", products)
         return res.json(products)
     },
     async delete(req, res){
-        const { empresa_email } = req.headers.authorization;
-        const { id } = req.body;
+        const { empresa_email, id } = req.params;
+        console.log('EMPRESA QUE VEIO: ',empresa_email)
+        console.log('ID QUE VEIO: ',id)
 
         const produto = await connection('products')
         .where('id', id).select('*').first();
@@ -51,7 +52,6 @@ module.exports ={
         await connection('products')
         .where('id', id)
         .delete();
-        console.log('APAGOU')
         res.status(204).send();
 
 

@@ -13,7 +13,7 @@ routes.delete('/empresa', EmpresasController.delete)
 
 routes.get('/product/:email', ProductsController.index);
 routes.post('/product', ProductsController.create);
-routes.delete('/product', ProductsController.delete);
+routes.delete('/product/:empresa_email/:id', ProductsController.delete);
 
 
 module.exports = routes;
