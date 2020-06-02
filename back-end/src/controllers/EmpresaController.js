@@ -5,7 +5,7 @@ module.exports ={
     async create(req, res){
         const {empresa, description, whatsapp, email, senha, uf, city, photo } = req.body;
    
-        
+        console.log('CHEGOU ISSO> ', empresa, whatsapp, city, email)
         await connection('empresas').insert({
             email,
             senha,
