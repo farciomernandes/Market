@@ -7,7 +7,6 @@ const routes = require('./routes')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
 
-
 app.use(routes)
 
 app.listen(porta, ()=>{
